@@ -47,5 +47,3 @@ python src/pipeline.py
 | DL | NHITS, N-BEATS, PatchTST |
 | Аномалии | IQR, Z-score, Isolation Forest |
 
-## Отчёт
-Полный аналитический отчёт: [`reports/README.md`](reports/README.md)
