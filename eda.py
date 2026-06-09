@@ -1,7 +1,3 @@
-"""
-EDA module — Brisbane Water Quality Time Series
-Run standalone: python src/eda.py
-"""
 
 import warnings
 warnings.filterwarnings("ignore")

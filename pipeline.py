@@ -1,8 +1,3 @@
-"""
-Brisbane Water Quality — Time Series Forecasting Pipeline
-Задача: Предсказание температуры воды (30-мин интервалы, горизонт 48 шагов = 24 часа)
-"""
-
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -26,7 +21,9 @@ RANDOM_SEED = 42
 np.random.seed(RANDOM_SEED)
 
 
+# =============================================================================
 # STEP 1 — Data Loading & Cleaning
+# =============================================================================
 
 def load_and_prepare(path: Path) -> pd.DataFrame:
     df = pd.read_csv(path, parse_dates=["Timestamp"])
@@ -49,7 +46,9 @@ def load_and_prepare(path: Path) -> pd.DataFrame:
     return df
 
 
+# =============================================================================
 # STEP 2 — Feature Engineering
+# =============================================================================
 
 def add_features(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
@@ -69,7 +68,9 @@ def add_features(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+# =============================================================================
 # STEP 3 — Train/Test Split
+# =============================================================================
 
 def train_test_split_ts(df: pd.DataFrame, horizon: int):
     train = df.iloc[:-horizon].copy()
@@ -78,7 +79,9 @@ def train_test_split_ts(df: pd.DataFrame, horizon: int):
     return train, test
 
 
+# =============================================================================
 # STEP 4 — Statistical Models
+# =============================================================================
 
 def run_statistical_models(train: pd.DataFrame, test: pd.DataFrame):
     from statsforecast import StatsForecast
@@ -108,7 +111,9 @@ def run_statistical_models(train: pd.DataFrame, test: pd.DataFrame):
     return forecast, cv, sf
 
 
+# =============================================================================
 # STEP 5 — ML Models
+# =============================================================================
 
 def run_ml_models(df_feat: pd.DataFrame):
     from mlforecast import MLForecast
@@ -150,7 +155,9 @@ def run_ml_models(df_feat: pd.DataFrame):
     return forecast, cv, fcst
 
 
+# =============================================================================
 # STEP 6 — DL Models
+# =============================================================================
 
 def run_dl_models(train: pd.DataFrame):
     from neuralforecast import NeuralForecast
@@ -177,7 +184,9 @@ def run_dl_models(train: pd.DataFrame):
     return forecast, nf
 
 
+# =============================================================================
 # STEP 7 — Anomaly Detection
+# =============================================================================
 
 def detect_anomalies(df: pd.DataFrame) -> dict:
     from sklearn.ensemble import IsolationForest
@@ -213,7 +222,9 @@ def detect_anomalies(df: pd.DataFrame) -> dict:
     return results
 
 
+# =============================================================================
 # STEP 8 — Metrics from CV
+# =============================================================================
 
 def metrics_from_cv(cv_df: pd.DataFrame, models: list) -> pd.DataFrame:
     rows = []
@@ -234,7 +245,9 @@ def metrics_from_cv(cv_df: pd.DataFrame, models: list) -> pd.DataFrame:
     return pd.DataFrame(rows).sort_values("MAE")
 
 
+# =============================================================================
 # MAIN
+# =============================================================================
 
 def main():
     print("=" * 60)
